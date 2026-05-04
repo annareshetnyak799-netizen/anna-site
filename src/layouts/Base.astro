@@ -1,0 +1,64 @@
+---
+import '../styles/global.css';
+interface Props { title?: string; description?: string; }
+const { title = 'Anna Reshetnyak', description = 'ML Engineer · AI Researcher · ITMO MSc' } = Astro.props;
+const path = Astro.url.pathname;
+---
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{title}</title>
+  <meta name="description" content={description}>
+</head>
+<body>
+<div class="container">
+  <nav>
+    <a href="/" class="nav-logo">Anna Reshetnyak</a>
+    <div class="nav-right">
+      <ul class="nav-links">
+        <li><a href="/blog" class={path.startsWith('/blog') ? 'active' : ''} data-i18n="navBlog">Блог</a></li>
+        <li><a href="/#about" data-i18n="navAbout">Обо мне</a></li>
+        <li><a href="/#contact" data-i18n="navContact">Контакт</a></li>
+      </ul>
+      <button class="lang-toggle" onclick="toggleLang()" id="langBtn">EN</button>
+    </div>
+  </nav>
+
+  <slot />
+
+  <footer>
+    <span>© 2025 Anna Reshetnyak</span>
+    <span data-i18n="footerRight">Создано с любопытством</span>
+  </footer>
+</div>
+
+<script>
+  const NAV: Record<string, Record<string, string>> = {
+    ru: { navBlog: 'Блог', navAbout: 'Обо мне', navContact: 'Контакт', footerRight: 'Создано с любопытством' },
+    en: { navBlog: 'Blog', navAbout: 'About', navContact: 'Contact', footerRight: 'Built with curiosity' },
+  };
+
+  let lang = localStorage.getItem('lang') || 'ru';
+
+  function applyNav(l: string) {
+    Object.entries(NAV[l]).forEach(([k, v]) => {
+      document.querySelectorAll<HTMLElement>(`[data-i18n="${k}"]`).forEach(el => el.innerHTML = v);
+    });
+    document.documentElement.lang = l;
+    const btn = document.getElementById('langBtn');
+    if (btn) btn.textContent = l === 'ru' ? 'EN' : 'RU';
+  }
+
+  (window as any).toggleLang = () => {
+    lang = lang === 'ru' ? 'en' : 'ru';
+    localStorage.setItem('lang', lang);
+    applyNav(lang);
+    window.dispatchEvent(new CustomEvent('langchange', { detail: lang }));
+  };
+
+  applyNav(lang);
+</script>
+</body>
+</html>

@@ -1,0 +1,206 @@
+---
+import Base from '../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+const posts = (await getCollection('blog')).sort((a, b) => a.data.date.valueOf() - b.data.date.valueOf());
+---
+<Base>
+
+<section class="hero">
+  <svg class="constellation" viewBox="0 0 320 320" fill="none">
+    <circle cx="55" cy="38" r="2" fill="#a855f7"/><circle cx="175" cy="72" r="1.5" fill="#67e8f9"/>
+    <circle cx="270" cy="28" r="2.5" fill="#a855f7"/><circle cx="230" cy="155" r="1.5" fill="#67e8f9"/>
+    <circle cx="90" cy="175" r="2" fill="#a855f7"/><circle cx="290" cy="230" r="1.5" fill="#67e8f9"/>
+    <circle cx="140" cy="275" r="2" fill="#a855f7"/><circle cx="35" cy="240" r="1.5" fill="#67e8f9"/>
+    <circle cx="310" cy="130" r="1.5" fill="#67e8f9"/>
+    <line x1="55" y1="38" x2="175" y2="72" stroke="#a855f7" stroke-width="0.5" opacity="0.7"/>
+    <line x1="175" y1="72" x2="270" y2="28" stroke="#67e8f9" stroke-width="0.5" opacity="0.7"/>
+    <line x1="175" y1="72" x2="230" y2="155" stroke="#a855f7" stroke-width="0.5" opacity="0.7"/>
+    <line x1="270" y1="28" x2="310" y2="130" stroke="#67e8f9" stroke-width="0.4" opacity="0.6"/>
+    <line x1="230" y1="155" x2="90" y2="175" stroke="#67e8f9" stroke-width="0.5" opacity="0.7"/>
+    <line x1="230" y1="155" x2="290" y2="230" stroke="#67e8f9" stroke-width="0.5" opacity="0.7"/>
+    <line x1="90" y1="175" x2="140" y2="275" stroke="#a855f7" stroke-width="0.5" opacity="0.7"/>
+  </svg>
+
+  <div class="hero-inner">
+    <div class="hero-text">
+      <div class="hero-label" data-i18n="heroLabel">ML-инженер · AI-исследователь · Магистрант ИТМО</div>
+      <h1 class="hero-name">Anna<br>Reshetnyak</h1>
+      <p class="hero-tagline" data-i18n="heroTagline">Создаю AI, который <em>понимает людей</em> - потому что сначала изучила их.</p>
+      <p class="hero-sub" data-i18n="heroSub">Психология → Менеджмент → Машинное обучение</p>
+      <div class="hero-ctas">
+        <a href="#contact" class="btn-primary" data-i18n="heroCta1">Написать →</a>
+        <a href="/blog" class="btn-ghost" data-i18n="heroCta2">Читать блог</a>
+      </div>
+    </div>
+    <div class="hero-photo">
+      <img src="/photo.jpg" alt="Anna Reshetnyak">
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<section id="about">
+  <div class="section-label" data-i18n="aboutLabel">Обо мне</div>
+  <div class="about-text">
+    <p data-i18n="aboutP1">Психолог по первому образованию, руководитель отдела продаж по опыту - и ML-инженер по призванию. Я убеждена: <strong>лучший AI создаёт тот, кто понимает человека изнутри</strong>. Именно это и отличает мой путь - я пришла в машинное обучение через понимание потребностей людей и продуктов для них, а математика стала языком, который я полюбила в процессе.</p>
+    <p data-i18n="aboutP2">Строю сервисы от идеи до продакшена, исследую AI на стыке психологии и качества жизни, учусь в магистратуре ИТМО. Верю, что нас ждёт удивительное будущее - и хочу участвовать в его создании.</p>
+  </div>
+</section>
+
+<section>
+  <div class="section-label" data-i18n="focusLabel">Направления</div>
+  <div class="focus-grid">
+    <div class="focus-card">
+      <span class="focus-icon">⚙️</span>
+      <div class="focus-title" data-i18n="f1t">AI Engineering</div>
+      <div class="focus-desc" data-i18n="f1d">ML-сервисы от идеи до продакшена. MLOps, inference, end-to-end разработка.</div>
+    </div>
+    <div class="focus-card">
+      <span class="focus-icon">🧠</span>
+      <div class="focus-title" data-i18n="f2t">Psychology × AI</div>
+      <div class="focus-desc" data-i18n="f2d">Как устроен человек - и как это меняет подход к проектированию интеллектуальных систем.</div>
+    </div>
+    <div class="focus-card">
+      <span class="focus-icon">🌿</span>
+      <div class="focus-title" data-i18n="f3t">AI & Lifestyle</div>
+      <div class="focus-desc" data-i18n="f3d">Технологии для здоровья, осознанности и качества жизни - без отрыва от повседневности.</div>
+    </div>
+  </div>
+</section>
+
+<section id="blog">
+  <div class="section-label" data-i18n="writingLabel">Публикации</div>
+  <div class="section-title" data-i18n="writingTitle">Последние посты</div>
+  <div class="posts-list">
+    {posts.map(post => (
+      <a href={`/blog/${post.slug}`} class="post-item">
+        <div class="post-content">
+          <div class="post-title">{post.data.title}</div>
+          <div class="post-excerpt">{post.data.excerpt}</div>
+          <div class="post-tags">{post.data.tags.map(t => <span class="tag">{t}</span>)}</div>
+        </div>
+        <div class="post-meta">
+          <span class="post-date">{post.data.date.getFullYear()}</span>
+          <span class="post-lang">{post.data.lang === 'both' ? 'RU/EN' : post.data.lang.toUpperCase()}</span>
+        </div>
+      </a>
+    ))}
+  </div>
+</section>
+
+<section id="contact">
+  <div class="contact-block">
+    <div class="contact-title" data-i18n="contactTitle">Давайте пообщаемся</div>
+    <p class="contact-text" data-i18n="contactText">Интересна коллаборация, консультация по AI-проектам или просто хороший разговор про технологии и будущее?</p>
+    <a href="mailto:annareshetnyak799@gmail.com" class="btn-primary" data-i18n="contactCta">Написать письмо →</a>
+    <div class="contact-links">
+      <a href="https://github.com/annareshetnyak799-netizen" target="_blank" class="contact-link">GitHub</a>
+      <a href="#" class="contact-link">LinkedIn</a>
+      <a href="https://t.me/Areshka1212" target="_blank" class="contact-link">Telegram</a>
+    </div>
+  </div>
+</section>
+
+</Base>
+
+<script>
+const T: Record<string, Record<string, string>> = {
+  ru: {
+    heroLabel:'ML-инженер · AI-исследователь · Магистрант ИТМО',
+    heroTagline:'Создаю AI, который <em>понимает людей</em> - потому что сначала изучила их.',
+    heroSub:'Психология → Менеджмент → Машинное обучение',
+    heroCta1:'Написать →', heroCta2:'Читать блог',
+    aboutLabel:'Обо мне',
+    aboutP1:'Психолог по первому образованию, руководитель отдела продаж по опыту - и ML-инженер по призванию. Я убеждена: <strong>лучший AI создаёт тот, кто понимает человека изнутри</strong>. Именно это и отличает мой путь - я пришла в машинное обучение через понимание потребностей людей и продуктов для них, а математика стала языком, который я полюбила в процессе.',
+    aboutP2:'Строю сервисы от идеи до продакшена, исследую AI на стыке психологии и качества жизни, учусь в магистратуре ИТМО. Верю, что нас ждёт удивительное будущее - и хочу участвовать в его создании.',
+    focusLabel:'Направления',
+    f1t:'AI Engineering', f1d:'ML-сервисы от идеи до продакшена. MLOps, inference, end-to-end разработка.',
+    f2t:'Psychology × AI', f2d:'Как устроен человек - и как это меняет подход к проектированию интеллектуальных систем.',
+    f3t:'AI & Lifestyle', f3d:'Технологии для здоровья, осознанности и качества жизни - без отрыва от повседневности.',
+    writingLabel:'Публикации', writingTitle:'Последние посты',
+    contactTitle:'Давайте пообщаемся',
+    contactText:'Интересна коллаборация, консультация по AI-проектам или просто хороший разговор про технологии и будущее?',
+    contactCta:'Написать письмо →',
+  },
+  en: {
+    heroLabel:'ML Engineer · AI Researcher · ITMO MSc',
+    heroTagline:'I build AI that <em>understands humans</em> - because I studied them first.',
+    heroSub:'Psychology → Management → Machine Learning',
+    heroCta1:'Get in touch →', heroCta2:'Read blog',
+    aboutLabel:'About',
+    aboutP1:'Psychologist by first degree, head of sales by experience - and ML engineer by calling. I believe: <strong>the best AI is built by those who understand humans from the inside</strong>. That\'s what sets my path apart - I came to machine learning through understanding people\'s needs and products built for them, and mathematics became a language I fell in love with along the way.',
+    aboutP2:'I build services from idea to production, explore AI at the intersection of psychology and quality of life, and study at ITMO\'s master\'s program. I believe an amazing future is ahead - and I want to be part of creating it.',
+    focusLabel:'Focus',
+    f1t:'AI Engineering', f1d:'ML services from idea to production. MLOps, inference, end-to-end development.',
+    f2t:'Psychology × AI', f2d:'How humans work - and how that changes the way we design intelligent systems.',
+    f3t:'AI & Lifestyle', f3d:'Technology for health, mindfulness and quality of life - grounded in everyday reality.',
+    writingLabel:'Writing', writingTitle:'Latest posts',
+    contactTitle:"Let's connect",
+    contactText:'Interested in collaboration, AI consulting, or just a great conversation about technology and the future?',
+    contactCta:'Send a message →',
+  },
+};
+
+function apply(l: string) {
+  Object.entries(T[l]).forEach(([k,v]) =>
+    document.querySelectorAll<HTMLElement>(`[data-i18n="${k}"]`).forEach(el => el.innerHTML = v)
+  );
+}
+
+apply(localStorage.getItem('lang') || 'ru');
+window.addEventListener('langchange', e => apply((e as CustomEvent).detail));
+</script>
+
+<style>
+.hero { padding: 80px 0 64px; position: relative; overflow: hidden; }
+.hero::before { content:''; position:absolute; top:-80px; right:-160px; width:560px; height:560px; background:radial-gradient(circle,rgba(168,85,247,.09) 0%,transparent 68%); pointer-events:none; }
+.hero::after { content:''; position:absolute; bottom:-40px; left:-120px; width:380px; height:380px; background:radial-gradient(circle,rgba(103,232,249,.05) 0%,transparent 68%); pointer-events:none; }
+.hero-inner { display:flex; align-items:center; gap:52px; position:relative; }
+.hero-text { flex:1; }
+.hero-photo { flex-shrink:0; width:172px; height:172px; border-radius:50%; overflow:hidden; border:2px solid rgba(168,85,247,.35); box-shadow:0 0 28px rgba(168,85,247,.22),0 0 64px rgba(168,85,247,.08); }
+.hero-photo img { width:100%; height:100%; object-fit:cover; object-position:center top; }
+.constellation { position:absolute; top:-30px; right:130px; width:260px; height:260px; opacity:.12; pointer-events:none; }
+.hero-label { font-family:'Space Mono',monospace; font-size:11px; letter-spacing:.14em; color:var(--purple); text-transform:uppercase; margin-bottom:22px; }
+.hero-name { font-family:'Space Grotesk',sans-serif; font-size:clamp(48px,8vw,80px); font-weight:700; line-height:1; letter-spacing:-.025em; margin-bottom:24px; background:linear-gradient(135deg,#f0ede8 60%,#c4b0f0 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+.hero-tagline { font-family:'Space Grotesk',sans-serif; font-size:clamp(17px,2.8vw,22px); font-weight:400; line-height:1.45; color:#b8b4c8; max-width:500px; margin-bottom:10px; }
+.hero-tagline em { color:var(--cyan); font-style:normal; }
+.hero-sub { font-family:'Space Mono',monospace; font-size:11px; color:var(--text-dim); letter-spacing:.08em; margin-bottom:40px; margin-top:6px; }
+.hero-ctas { display:flex; gap:14px; flex-wrap:wrap; }
+.about-text { font-size:17px; line-height:1.8; color:#b0acbe; }
+.about-text p+p { margin-top:16px; }
+.about-text strong { color:var(--text); font-weight:500; }
+.focus-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-top:8px; }
+.focus-card { background:var(--bg-card); border:1px solid var(--border); border-radius:10px; padding:22px 18px; transition:border-color .25s,box-shadow .25s; }
+.focus-card:hover { border-color:rgba(168,85,247,.4); box-shadow:0 0 20px rgba(168,85,247,.06); }
+.focus-icon { font-size:22px; margin-bottom:12px; display:block; }
+.focus-title { font-family:'Space Grotesk',sans-serif; font-size:14px; font-weight:600; margin-bottom:7px; color:var(--text); }
+.focus-desc { font-size:13px; color:var(--text-muted); line-height:1.55; }
+.posts-list { display:flex; flex-direction:column; border:1px solid var(--border); border-radius:10px; overflow:hidden; }
+.post-item { background:var(--bg-card); padding:20px 24px; text-decoration:none; display:flex; align-items:flex-start; gap:20px; border-bottom:1px solid var(--border); transition:background .2s; }
+.post-item:last-child { border-bottom:none; }
+.post-item:hover { background:var(--bg-subtle); }
+.post-content { flex:1; }
+.post-title { font-family:'Space Grotesk',sans-serif; font-size:15px; font-weight:500; color:var(--text); margin-bottom:5px; line-height:1.35; transition:color .2s; }
+.post-item:hover .post-title { color:var(--purple); }
+.post-excerpt { font-size:13px; color:var(--text-muted); line-height:1.55; }
+.post-tags { display:flex; gap:6px; margin-top:10px; flex-wrap:wrap; }
+.post-meta { flex-shrink:0; text-align:right; padding-top:2px; }
+.post-date { font-family:'Space Mono',monospace; font-size:11px; color:var(--text-dim); display:block; }
+.post-lang { font-family:'Space Mono',monospace; font-size:10px; color:var(--purple); display:block; margin-top:4px; }
+.contact-block { background:var(--bg-card); border:1px solid var(--border); border-radius:14px; padding:52px 40px; text-align:center; position:relative; overflow:hidden; }
+.contact-block::before { content:''; position:absolute; top:-60px; left:50%; transform:translateX(-50%); width:360px; height:240px; background:radial-gradient(ellipse,rgba(168,85,247,.11) 0%,transparent 70%); pointer-events:none; }
+.contact-title { font-family:'Space Grotesk',sans-serif; font-size:24px; font-weight:600; margin-bottom:12px; position:relative; }
+.contact-text { font-size:15px; color:var(--text-muted); max-width:380px; margin:0 auto 32px; line-height:1.65; position:relative; }
+.contact-links { display:flex; gap:20px; justify-content:center; flex-wrap:wrap; margin-top:28px; position:relative; }
+.contact-link { font-family:'Space Mono',monospace; font-size:11px; color:var(--text-dim); text-decoration:none; letter-spacing:.06em; transition:color .2s; }
+.contact-link:hover { color:var(--cyan); }
+@media(max-width:580px) {
+  .hero { padding:60px 0 50px; }
+  .hero-inner { flex-direction:column-reverse; gap:32px; align-items:flex-start; }
+  .hero-photo { width:120px; height:120px; }
+  .constellation { display:none; }
+  .focus-grid { grid-template-columns:1fr; }
+  .contact-block { padding:36px 24px; }
+}
+</style>
