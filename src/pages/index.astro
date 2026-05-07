@@ -25,7 +25,7 @@ const posts = (await getCollection('blog')).sort((a, b) => a.data.date.valueOf()
     <div class="hero-text">
       <div class="hero-label" data-i18n="heroLabel">ML-инженер · AI-исследователь · Магистрант ИТМО</div>
       <h1 class="hero-name">Anna<br>Reshetnyak</h1>
-      <p class="hero-tagline" data-i18n="heroTagline">Создаю AI, который <em>понимает людей</em> - потому что сначала изучила их.</p>
+      <p class="hero-tagline" data-i18n="heroTagline">Создаю AI, который <em>понимает людей</em> - потому что сначала изучила их</p>
       <p class="hero-sub" data-i18n="heroSub">Психология → Менеджмент → Машинное обучение</p>
       <div class="hero-ctas">
         <a href="#contact" class="btn-primary" data-i18n="heroCta1">Написать →</a>
@@ -33,7 +33,7 @@ const posts = (await getCollection('blog')).sort((a, b) => a.data.date.valueOf()
       </div>
     </div>
     <div class="hero-photo">
-      <img src="/photo.jpg" alt="Anna Reshetnyak">
+      <img src="/photo-v2.jpg" alt="Anna Reshetnyak">
     </div>
   </div>
 </section>
@@ -108,7 +108,7 @@ const posts = (await getCollection('blog')).sort((a, b) => a.data.date.valueOf()
 const T: Record<string, Record<string, string>> = {
   ru: {
     heroLabel:'ML-инженер · AI-исследователь · Магистрант ИТМО',
-    heroTagline:'Создаю AI, который <em>понимает людей</em> - потому что сначала изучила их.',
+    heroTagline:'Создаю AI, который <em>понимает людей</em> - потому что сначала изучила их',
     heroSub:'Психология → Менеджмент → Машинное обучение',
     heroCta1:'Написать →', heroCta2:'Читать блог',
     aboutLabel:'Обо мне',
