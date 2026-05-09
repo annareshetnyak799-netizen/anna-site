@@ -1,8 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
 import { getCollection } from 'astro:content';
-import photo from '../assets/photo-v4.png';
-const posts = (await getCollection('blog')).sort((a, b) => a.data.date.valueOf() - b.data.date.valueOf());
+const posts = (await getCollection('blog')).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 ---
 <Base>
 
@@ -34,7 +33,7 @@ const posts = (await getCollection('blog')).sort((a, b) => a.data.date.valueOf()
       </div>
     </div>
     <div class="hero-photo">
-      <img src={photo.src} alt="Anna Reshetnyak">
+      <img src="/photo-v4.png" alt="Anna Reshetnyak">
     </div>
   </div>
 </section>
@@ -96,9 +95,9 @@ const posts = (await getCollection('blog')).sort((a, b) => a.data.date.valueOf()
     <p class="contact-text" data-i18n="contactText">Интересна коллаборация, консультация по AI-проектам или просто хороший разговор про технологии и будущее?</p>
     <a href="mailto:annareshetnyak799@gmail.com" class="btn-primary" data-i18n="contactCta">Написать письмо →</a>
     <div class="contact-links">
-      <a href="https://github.com/annareshetnyak799-netizen" target="_blank" class="contact-link">GitHub</a>
+      <a href="https://github.com/annareshetnyak799-netizen" target="_blank" rel="noreferrer" class="contact-link">GitHub</a>
       <a href="#" class="contact-link">LinkedIn</a>
-      <a href="https://t.me/Areshka1212" target="_blank" class="contact-link">Telegram</a>
+      <a href="https://t.me/Areshka1212" target="_blank" rel="noreferrer" class="contact-link">Telegram</a>
     </div>
   </div>
 </section>
