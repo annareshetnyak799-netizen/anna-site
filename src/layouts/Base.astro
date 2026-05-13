@@ -5,7 +5,7 @@ const { title = 'Anna Reshetnyak', description = 'ML Engineer · AI Researcher �
 const path = Astro.url.pathname;
 ---
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -18,11 +18,11 @@ const path = Astro.url.pathname;
     <a href="/" class="nav-logo">Anna Reshetnyak</a>
     <div class="nav-right">
       <ul class="nav-links">
-        <li><a href="/blog" class={path.startsWith('/blog') ? 'active' : ''} data-i18n="navBlog">Блог</a></li>
-        <li><a href="/#about" data-i18n="navAbout">Обо мне</a></li>
-        <li><a href="/#contact" data-i18n="navContact">Контакт</a></li>
+        <li><a href="/blog" class={path.startsWith('/blog') ? 'active' : ''} data-i18n="navBlog">Blog</a></li>
+        <li><a href="/#about" data-i18n="navAbout">About</a></li>
+        <li><a href="/#contact" data-i18n="navContact">Contact</a></li>
       </ul>
-      <button class="lang-toggle" onclick="toggleLang()" id="langBtn">EN</button>
+      <button class="lang-toggle" onclick="toggleLang()" id="langBtn">RU</button>
     </div>
   </nav>
 
@@ -30,7 +30,7 @@ const path = Astro.url.pathname;
 
   <footer>
     <span>© 2025 Anna Reshetnyak</span>
-    <span data-i18n="footerRight">Создано с любопытством</span>
+    <span data-i18n="footerRight">Built with curiosity</span>
   </footer>
 </div>
 
@@ -40,7 +40,7 @@ const path = Astro.url.pathname;
     en: { navBlog: 'Blog', navAbout: 'About', navContact: 'Contact', footerRight: 'Built with curiosity' },
   };
 
-  let lang = localStorage.getItem('lang') || 'ru';
+  let lang = localStorage.getItem('lang') || 'en';
 
   function applyNav(l: string) {
     Object.entries(NAV[l]).forEach(([k, v]) => {

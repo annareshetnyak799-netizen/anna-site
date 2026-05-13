@@ -23,13 +23,13 @@ const posts = (await getCollection('blog')).sort((a, b) => b.data.date.valueOf()
 
   <div class="hero-inner">
     <div class="hero-text">
-      <div class="hero-label" data-i18n="heroLabel">ML-инженер · AI-исследователь · Магистрант ИТМО</div>
+      <div class="hero-label" data-i18n="heroLabel">ML Engineer · AI Researcher · ITMO MSc</div>
       <h1 class="hero-name">Anna<br>Reshetnyak</h1>
-      <p class="hero-tagline" data-i18n="heroTagline">Создаю AI, который <em>понимает людей</em> - потому что сначала изучила их</p>
-      <p class="hero-sub" data-i18n="heroSub">Психология → Менеджмент → Машинное обучение</p>
+      <p class="hero-tagline" data-i18n="heroTagline">I build AI that <em>understands humans</em> - because I studied them first</p>
+      <p class="hero-sub" data-i18n="heroSub">Psychology → Management → Machine Learning</p>
       <div class="hero-ctas">
-        <a href="#contact" class="btn-primary" data-i18n="heroCta1">Написать →</a>
-        <a href="/blog" class="btn-ghost" data-i18n="heroCta2">Читать блог</a>
+        <a href="#contact" class="btn-primary" data-i18n="heroCta1">Get in touch →</a>
+        <a href="/blog" class="btn-ghost" data-i18n="heroCta2">Read blog</a>
       </div>
     </div>
     <div class="hero-photo">
@@ -41,43 +41,57 @@ const posts = (await getCollection('blog')).sort((a, b) => b.data.date.valueOf()
 <div class="divider"></div>
 
 <section id="about">
-  <div class="section-label" data-i18n="aboutLabel">Обо мне</div>
+  <div class="section-label" data-i18n="aboutLabel">About</div>
   <div class="about-text">
-    <p data-i18n="aboutP1">Психолог по первому образованию, руководитель отдела продаж по опыту - и ML-инженер по призванию. Я убеждена: <strong>лучший AI создаёт тот, кто понимает человека изнутри</strong>. Именно это и отличает мой путь - я пришла в машинное обучение через понимание потребностей людей и продуктов для них, а математика стала языком, который я полюбила в процессе.</p>
-    <p data-i18n="aboutP2">Строю сервисы от идеи до продакшена, исследую AI на стыке психологии и качества жизни, учусь в магистратуре ИТМО. Верю, что нас ждёт удивительное будущее - и хочу участвовать в его создании.</p>
+    <p data-i18n="aboutP1">Psychologist by first degree, head of sales by experience - and ML engineer by calling. I believe: <strong>the best AI is built by those who understand humans from the inside</strong>. That's what sets my path apart - I came to machine learning through understanding people's needs and products built for them, and mathematics became a language I fell in love with along the way.</p>
+    <p data-i18n="aboutP2">I build services from idea to production, explore AI at the intersection of psychology and quality of life, and study at ITMO's master's program. I believe an amazing future is ahead - and I want to be part of creating it.</p>
   </div>
 </section>
 
 <section>
-  <div class="section-label" data-i18n="focusLabel">Направления</div>
+  <div class="section-label" data-i18n="focusLabel">Focus</div>
   <div class="focus-grid">
     <div class="focus-card">
       <span class="focus-icon">⚙️</span>
       <div class="focus-title" data-i18n="f1t">AI Engineering</div>
-      <div class="focus-desc" data-i18n="f1d">ML-сервисы от идеи до продакшена. MLOps, inference, end-to-end разработка.</div>
+      <div class="focus-desc" data-i18n="f1d">ML services from idea to production. MLOps, inference, end-to-end development.</div>
     </div>
     <div class="focus-card">
       <span class="focus-icon">🧠</span>
       <div class="focus-title" data-i18n="f2t">Psychology × AI</div>
-      <div class="focus-desc" data-i18n="f2d">Как устроен человек - и как это меняет подход к проектированию интеллектуальных систем.</div>
+      <div class="focus-desc" data-i18n="f2d">How humans work - and how that changes the way we design intelligent systems.</div>
     </div>
     <div class="focus-card">
       <span class="focus-icon">🌿</span>
       <div class="focus-title" data-i18n="f3t">AI & Lifestyle</div>
-      <div class="focus-desc" data-i18n="f3d">Технологии для здоровья, осознанности и качества жизни - без отрыва от повседневности.</div>
+      <div class="focus-desc" data-i18n="f3d">Technology for health, mindfulness and quality of life - grounded in everyday reality.</div>
     </div>
   </div>
 </section>
 
 <section id="blog">
-  <div class="section-label" data-i18n="writingLabel">Публикации</div>
-  <div class="section-title" data-i18n="writingTitle">Последние посты</div>
+  <div class="section-label" data-i18n="writingLabel">Writing</div>
+  <div class="section-title" data-i18n="writingTitle">Latest posts</div>
   <div class="posts-list">
     {posts.map(post => (
       <a href={`/blog/${post.slug}`} class="post-item">
         <div class="post-content">
-          <div class="post-title">{post.data.title}</div>
-          <div class="post-excerpt">{post.data.excerpt}</div>
+          <div
+            class="post-title"
+            data-post-title
+            data-title-ru={post.data.title}
+            data-title-en={post.data.titleEn ?? post.data.title}
+          >
+            {post.data.titleEn ?? post.data.title}
+          </div>
+          <div
+            class="post-excerpt"
+            data-post-excerpt
+            data-excerpt-ru={post.data.excerpt}
+            data-excerpt-en={post.data.excerptEn ?? post.data.excerpt}
+          >
+            {post.data.excerptEn ?? post.data.excerpt}
+          </div>
           <div class="post-tags">{post.data.tags.map(t => <span class="tag">{t}</span>)}</div>
         </div>
         <div class="post-meta">
@@ -91,12 +105,12 @@ const posts = (await getCollection('blog')).sort((a, b) => b.data.date.valueOf()
 
 <section id="contact">
   <div class="contact-block">
-    <div class="contact-title" data-i18n="contactTitle">Давайте пообщаемся</div>
-    <p class="contact-text" data-i18n="contactText">Интересна коллаборация, консультация по AI-проектам или просто хороший разговор про технологии и будущее?</p>
-    <a href="mailto:annareshetnyak799@gmail.com" class="btn-primary" data-i18n="contactCta">Написать письмо →</a>
+    <div class="contact-title" data-i18n="contactTitle">Let's connect</div>
+    <p class="contact-text" data-i18n="contactText">Interested in collaboration, AI consulting, or just a great conversation about technology and the future?</p>
+    <a href="mailto:annareshetnyak799@gmail.com" class="btn-primary" data-i18n="contactCta">Send a message →</a>
     <div class="contact-links">
       <a href="https://github.com/annareshetnyak799-netizen" target="_blank" rel="noreferrer" class="contact-link">GitHub</a>
-      <a href="#" class="contact-link">LinkedIn</a>
+      <a href="https://www.linkedin.com/in/anna-reshetnyak-524b741a?trk=contact-info" target="_blank" rel="noreferrer" class="contact-link">LinkedIn</a>
       <a href="https://t.me/Areshka1212" target="_blank" rel="noreferrer" class="contact-link">Telegram</a>
     </div>
   </div>
@@ -125,7 +139,7 @@ const T: Record<string, Record<string, string>> = {
   },
   en: {
     heroLabel:'ML Engineer · AI Researcher · ITMO MSc',
-    heroTagline:'I build AI that <em>understands humans</em> - because I studied them first.',
+    heroTagline:'I build AI that <em>understands humans</em> - because I studied them first',
     heroSub:'Psychology → Management → Machine Learning',
     heroCta1:'Get in touch →', heroCta2:'Read blog',
     aboutLabel:'About',
@@ -146,9 +160,17 @@ function apply(l: string) {
   Object.entries(T[l]).forEach(([k,v]) =>
     document.querySelectorAll<HTMLElement>(`[data-i18n="${k}"]`).forEach(el => el.innerHTML = v)
   );
+
+  document.querySelectorAll<HTMLElement>('[data-post-title]').forEach(el => {
+    el.textContent = l === 'ru' ? el.dataset.titleRu ?? '' : el.dataset.titleEn ?? '';
+  });
+
+  document.querySelectorAll<HTMLElement>('[data-post-excerpt]').forEach(el => {
+    el.textContent = l === 'ru' ? el.dataset.excerptRu ?? '' : el.dataset.excerptEn ?? '';
+  });
 }
 
-apply(localStorage.getItem('lang') || 'ru');
+apply(localStorage.getItem('lang') || 'en');
 window.addEventListener('langchange', e => apply((e as CustomEvent).detail));
 </script>
 

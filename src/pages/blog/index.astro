@@ -6,17 +6,37 @@ const posts = (await getCollection('blog')).sort((a, b) => b.data.date.valueOf()
 <Base title="Blog - Anna Reshetnyak">
 <section style="padding:60px 0 80px;">
   <div class="section-label">Writing</div>
-  <h1 class="section-title">Все посты</h1>
+  <h1 class="section-title" data-i18n="blogTitle">All posts</h1>
   <div class="posts-list">
     {posts.map(post => (
       <a href={`/blog/${post.slug}`} class="post-item">
         <div class="post-content">
-          <div class="post-title">{post.data.title}</div>
-          <div class="post-excerpt">{post.data.excerpt}</div>
+          <div
+            class="post-title"
+            data-post-title
+            data-title-ru={post.data.title}
+            data-title-en={post.data.titleEn ?? post.data.title}
+          >
+            {post.data.titleEn ?? post.data.title}
+          </div>
+          <div
+            class="post-excerpt"
+            data-post-excerpt
+            data-excerpt-ru={post.data.excerpt}
+            data-excerpt-en={post.data.excerptEn ?? post.data.excerpt}
+          >
+            {post.data.excerptEn ?? post.data.excerpt}
+          </div>
           <div class="post-tags">{post.data.tags.map(t => <span class="tag">{t}</span>)}</div>
         </div>
         <div class="post-meta">
-          <span class="post-date">{post.data.date.toLocaleDateString('ru-RU',{day:'numeric',month:'short',year:'numeric'})}</span>
+          <span
+            class="post-date"
+            data-post-date
+            data-date-iso={post.data.date.toISOString()}
+          >
+            {post.data.date.toLocaleDateString('en-US',{day:'numeric',month:'short',year:'numeric'})}
+          </span>
           <span class="post-lang">{post.data.lang === 'both' ? 'RU/EN' : post.data.lang.toUpperCase()}</span>
         </div>
       </a>
@@ -24,6 +44,39 @@ const posts = (await getCollection('blog')).sort((a, b) => b.data.date.valueOf()
   </div>
 </section>
 </Base>
+
+<script>
+const BLOG: Record<string, string> = {
+  ru: 'Все посты',
+  en: 'All posts',
+};
+
+function formatDate(dateIso: string, lang: string) {
+  const locale = lang === 'ru' ? 'ru-RU' : 'en-US';
+  return new Date(dateIso).toLocaleDateString(locale, { day: 'numeric', month: 'short', year: 'numeric' });
+}
+
+function applyBlog(lang: string) {
+  document.querySelectorAll<HTMLElement>('[data-i18n="blogTitle"]').forEach(el => {
+    el.textContent = BLOG[lang];
+  });
+
+  document.querySelectorAll<HTMLElement>('[data-post-title]').forEach(el => {
+    el.textContent = lang === 'ru' ? el.dataset.titleRu ?? '' : el.dataset.titleEn ?? '';
+  });
+
+  document.querySelectorAll<HTMLElement>('[data-post-excerpt]').forEach(el => {
+    el.textContent = lang === 'ru' ? el.dataset.excerptRu ?? '' : el.dataset.excerptEn ?? '';
+  });
+
+  document.querySelectorAll<HTMLElement>('[data-post-date]').forEach(el => {
+    el.textContent = formatDate(el.dataset.dateIso ?? '', lang);
+  });
+}
+
+applyBlog(localStorage.getItem('lang') || 'en');
+window.addEventListener('langchange', e => applyBlog((e as CustomEvent).detail));
+</script>
 
 <style>
 .posts-list { display:flex; flex-direction:column; border:1px solid var(--border); border-radius:10px; overflow:hidden; }
