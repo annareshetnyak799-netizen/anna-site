@@ -4,37 +4,119 @@ import { getCollection } from 'astro:content';
 
 export async function getStaticPaths() {
   const posts = await getCollection('blog');
-  return posts.map(post => ({ params: { slug: post.slug }, props: { post } }));
+  const keys = [...new Set(posts.map(post => post.data.translationKey))];
+  return keys.map(key => ({ params: { slug: key } }));
 }
 
-const { post } = Astro.props;
-const { Content } = await post.render();
-const date = post.data.date.toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' });
+const posts = await getCollection('blog');
+const translationKey = Astro.params.slug!;
+const ruPost = posts.find(post => post.data.translationKey === translationKey && post.data.locale === 'ru');
+const enPost = posts.find(post => post.data.translationKey === translationKey && post.data.locale === 'en');
+
+if (!ruPost || !enPost) {
+  throw new Error(`Missing translation pair for post: ${translationKey}`);
+}
+
+const { Content: ContentRu } = await ruPost.render();
+const { Content: ContentEn } = await enPost.render();
+const titleRu = ruPost.data.title;
+const titleEn = enPost.data.title;
+const excerptRu = ruPost.data.excerpt;
+const excerptEn = enPost.data.excerpt;
+const dateRu = ruPost.data.date.toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' });
+const dateEn = enPost.data.date.toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric' });
 ---
-<Base title={`${post.data.title} - Anna Reshetnyak`} description={post.data.excerpt}>
+<Base title={`${titleEn} - Anna Reshetnyak`} description={excerptEn}>
 <article style="padding:60px 0 80px;">
 
-  <a href="/blog" class="back-link">← Все посты</a>
+  <a
+    href="/blog"
+    class="back-link"
+    data-i18n="backToBlog"
+  >← All posts</a>
 
   <div class="post-tags-row">
-    {post.data.tags.map(t => <span class="tag">{t}</span>)}
+    {enPost.data.tags.map(t => <span class="tag">{t}</span>)}
   </div>
 
-  <h1 class="post-h1">{post.data.title}</h1>
+  <h1
+    class="post-h1"
+    data-post-title
+    data-title-ru={titleRu}
+    data-title-en={titleEn}
+  >
+    {titleEn}
+  </h1>
 
-  <div class="post-byline">{date} · {post.data.lang === 'both' ? 'RU/EN' : post.data.lang.toUpperCase()}</div>
+  <div
+    class="post-byline"
+    data-post-date
+    data-date-ru={dateRu}
+    data-date-en={dateEn}
+  >
+    {dateEn} · RU/EN
+  </div>
 
-  <div class="prose">
-    <Content />
+  <div class="prose" data-lang-content="en">
+    <ContentEn />
+  </div>
+
+  <div class="prose" data-lang-content="ru" hidden>
+    <ContentRu />
   </div>
 
   <div class="post-footer">
-    <p>Обсудить или задать вопрос:</p>
-    <a href="https://t.me/Areshka1212" target="_blank" rel="noreferrer" class="btn-ghost">Написать в Telegram</a>
+    <p data-i18n="postFooterLabel">Discuss it or ask a question:</p>
+    <a
+      href="https://t.me/Areshka1212"
+      target="_blank"
+      rel="noreferrer"
+      class="btn-ghost"
+      data-i18n="postFooterCta"
+    >Message me on Telegram</a>
   </div>
 
 </article>
 </Base>
+
+<script>
+const POST_UI: Record<string, Record<string, string>> = {
+  ru: {
+    backToBlog: '← Все посты',
+    postFooterLabel: 'Обсудить или задать вопрос:',
+    postFooterCta: 'Написать в Telegram',
+  },
+  en: {
+    backToBlog: '← All posts',
+    postFooterLabel: 'Discuss it or ask a question:',
+    postFooterCta: 'Message me on Telegram',
+  },
+};
+
+function applyPost(lang: string) {
+  Object.entries(POST_UI[lang]).forEach(([key, value]) => {
+    document.querySelectorAll<HTMLElement>(`[data-i18n="${key}"]`).forEach(el => {
+      el.textContent = value;
+    });
+  });
+
+  document.querySelectorAll<HTMLElement>('[data-post-title]').forEach(el => {
+    el.textContent = lang === 'ru' ? el.dataset.titleRu ?? '' : el.dataset.titleEn ?? '';
+  });
+
+  document.querySelectorAll<HTMLElement>('[data-post-date]').forEach(el => {
+    const date = lang === 'ru' ? el.dataset.dateRu ?? '' : el.dataset.dateEn ?? '';
+    el.textContent = `${date} · RU/EN`;
+  });
+
+  document.querySelectorAll<HTMLElement>('[data-lang-content]').forEach(el => {
+    el.hidden = el.dataset.langContent !== lang;
+  });
+}
+
+applyPost(localStorage.getItem('lang') || 'en');
+window.addEventListener('langchange', e => applyPost((e as CustomEvent).detail));
+</script>
 
 <style>
 .back-link { font-family:'Space Mono',monospace; font-size:12px; color:var(--text-dim); text-decoration:none; letter-spacing:.06em; transition:color .2s; display:inline-block; margin-bottom:32px; }

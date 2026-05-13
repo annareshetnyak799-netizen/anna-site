@@ -1,10 +1,9 @@
 ---
+translationKey: "02-psychology-invented-evals"
+locale: ru
 title: "Психология придумала evals раньше всех"
-titleEn: "Psychology invented evals first"
 date: 2025-05-02
 excerpt: "Вопрос, который не даёт покоя AI research - как измерить то, что не видно напрямую - психология задала на 150 лет раньше."
-excerptEn: "The question haunting AI research today - how to measure what can't be seen directly - psychology asked 150 years ago."
-lang: both
 tags: [ai research, evals, psychology]
 ---
 
@@ -46,7 +45,7 @@ tags: [ai research, evals, psychology]
 
 Именно этим занимались психологи, когда строили первые экспериментальные протоколы. И именно это меня сейчас захватывает в AI research.
 
-## Два разных поля. Один вопрос.
+## Два разных поля. Один вопрос
 
 Когда я работаю с оценкой AI-систем, я не чувствую, что занимаюсь чем-то далёким от психологии. Я чувствую, что два образования наконец занялись одним и тем же вопросом.
 

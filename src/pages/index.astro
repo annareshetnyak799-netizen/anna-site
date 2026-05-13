@@ -1,7 +1,19 @@
 ---
 import Base from '../layouts/Base.astro';
 import { getCollection } from 'astro:content';
-const posts = (await getCollection('blog')).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+const entries = await getCollection('blog');
+const postPairs = Array.from(
+  entries.reduce((map, entry) => {
+    const pair = map.get(entry.data.translationKey) ?? { en: null, ru: null };
+    pair[entry.data.locale] = entry;
+    map.set(entry.data.translationKey, pair);
+    return map;
+  }, new Map<string, { en: typeof entries[number] | null; ru: typeof entries[number] | null }>())
+    .values(),
+)
+  .filter(pair => pair.en && pair.ru)
+  .sort((a, b) => b.en!.data.date.valueOf() - a.en!.data.date.valueOf());
 ---
 <Base>
 
@@ -73,30 +85,30 @@ const posts = (await getCollection('blog')).sort((a, b) => b.data.date.valueOf()
   <div class="section-label" data-i18n="writingLabel">Writing</div>
   <div class="section-title" data-i18n="writingTitle">Latest posts</div>
   <div class="posts-list">
-    {posts.map(post => (
-      <a href={`/blog/${post.slug}`} class="post-item">
+    {postPairs.map(({ en, ru }) => (
+      <a href={`/blog/${en!.data.translationKey}`} class="post-item">
         <div class="post-content">
           <div
             class="post-title"
             data-post-title
-            data-title-ru={post.data.title}
-            data-title-en={post.data.titleEn ?? post.data.title}
+            data-title-ru={ru!.data.title}
+            data-title-en={en!.data.title}
           >
-            {post.data.titleEn ?? post.data.title}
+            {en!.data.title}
           </div>
           <div
             class="post-excerpt"
             data-post-excerpt
-            data-excerpt-ru={post.data.excerpt}
-            data-excerpt-en={post.data.excerptEn ?? post.data.excerpt}
+            data-excerpt-ru={ru!.data.excerpt}
+            data-excerpt-en={en!.data.excerpt}
           >
-            {post.data.excerptEn ?? post.data.excerpt}
+            {en!.data.excerpt}
           </div>
-          <div class="post-tags">{post.data.tags.map(t => <span class="tag">{t}</span>)}</div>
+          <div class="post-tags">{en!.data.tags.map(t => <span class="tag">{t}</span>)}</div>
         </div>
         <div class="post-meta">
-          <span class="post-date">{post.data.date.getFullYear()}</span>
-          <span class="post-lang">{post.data.lang === 'both' ? 'RU/EN' : post.data.lang.toUpperCase()}</span>
+          <span class="post-date">{en!.data.date.getFullYear()}</span>
+          <span class="post-lang">RU/EN</span>
         </div>
       </a>
     ))}

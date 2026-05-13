@@ -1,10 +1,9 @@
 ---
+translationKey: "01-hardest-wasnt-ml"
+locale: ru
 title: "Самым сложным оказался не ML"
-titleEn: "The hardest part wasn't the ML"
 date: 2025-05-01
 excerpt: "Почему вход в профессию - это не про математику и алгоритмы, а про умение не бросить на этапе, когда ничего не понятно."
-excerptEn: "Why entering this profession is not about math and algorithms - but about not giving up when nothing makes sense yet."
-lang: both
 tags: [the path, career]
 ---
 

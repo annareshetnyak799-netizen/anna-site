@@ -1,10 +1,9 @@
 ---
+translationKey: "03-what-carried-over"
+locale: ru
 title: "Что неожиданно пригодилось из прошлого опыта"
-titleEn: "What unexpectedly carried over from my past"
 date: 2025-05-03
 excerpt: "Как психология, управление продажами и работа с людьми стали преимуществом - а не просто «нетехническим прошлым»."
-excerptEn: "How psychology, sales management and working with people became an advantage - not just a non-technical background."
-lang: both
 tags: [interdisciplinary, career, ml]
 ---
 
