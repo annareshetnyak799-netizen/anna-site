@@ -17,6 +17,11 @@
 
 html { scroll-behavior: smooth; }
 
+html[lang='ru'] .lang-en,
+html[lang='en'] .lang-ru {
+  display: none !important;
+}
+
 body {
   background-color: var(--bg);
   color: var(--text);
