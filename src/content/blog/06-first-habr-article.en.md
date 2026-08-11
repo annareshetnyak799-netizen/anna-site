@@ -1,13 +1,13 @@
 ---
 translationKey: "06-first-habr-article"
 locale: en
-title: "My first Habr article is out"
+title: "I’ve published my first article on Habr"
 date: 2026-08-10
 excerpt: "My first article on Habr: how I went through several rounds of Sandbox moderation and eventually published a piece on speeding up inference for an encoder-based guard model."
 tags: [habr, ml engineering, inference, llm infrastructure, ai research]
 ---
 
-My first article has been published on Habr.
+I’ve published my first article on Habr.
 
 For me, this is not just a publication. It is an important step: moving from learning and practice into an open professional conversation.
 
