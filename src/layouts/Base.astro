@@ -5,7 +5,7 @@ const { title = 'Anna Reshetnyak', description = 'ML Engineer Â· AI Researcher Â
 const path = Astro.url.pathname;
 ---
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -40,7 +40,7 @@ const path = Astro.url.pathname;
     en: { navBlog: 'Blog', navAbout: 'About', navContact: 'Contact', footerRight: 'Built with curiosity' },
   };
 
-  let lang = localStorage.getItem('lang') || 'en';
+      let lang = localStorage.getItem('lang') || 'ru';
 
   function applyNav(l: string) {
     Object.entries(NAV[l]).forEach(([k, v]) => {

@@ -114,7 +114,7 @@ function applyPost(lang: string) {
   });
 }
 
-applyPost(localStorage.getItem('lang') || 'en');
+      applyPost(localStorage.getItem('lang') || 'ru');
 window.addEventListener('langchange', e => applyPost((e as CustomEvent).detail));
 </script>
 

@@ -182,7 +182,7 @@ function apply(l: string) {
   });
 }
 
-apply(localStorage.getItem('lang') || 'en');
+      apply(localStorage.getItem('lang') || 'ru');
 window.addEventListener('langchange', e => apply((e as CustomEvent).detail));
 </script>
 

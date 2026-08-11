@@ -86,7 +86,7 @@ function applyBlog(lang: string) {
   });
 }
 
-applyBlog(localStorage.getItem('lang') || 'en');
+      applyBlog(localStorage.getItem('lang') || 'ru');
 window.addEventListener('langchange', e => applyBlog((e as CustomEvent).detail));
 </script>
 
