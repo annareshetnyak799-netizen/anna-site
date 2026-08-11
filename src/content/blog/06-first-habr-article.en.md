@@ -1,7 +1,7 @@
 ---
 translationKey: "06-first-habr-article"
 locale: en
-title: "I’ve published my first article on Habr"
+title: "My First Habr Article on Speeding Up ML Inference"
 date: 2026-08-10
 excerpt: "My first article on Habr: how I went through several rounds of Sandbox moderation and eventually published a piece on speeding up inference for an encoder-based guard model."
 tags: [habr, ml engineering, inference, llm infrastructure, ai research]

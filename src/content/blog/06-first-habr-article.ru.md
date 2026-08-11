@@ -1,7 +1,7 @@
 ---
 translationKey: "06-first-habr-article"
 locale: ru
-title: "На Хабре вышла моя первая статья"
+title: "Моя первая статья на Хабре про ускорение ML-инференса"
 date: 2026-08-10
 excerpt: "Моя первая статья на Хабре: о том, как я несколько раз дорабатывала материал через Песочницу и в итоге опубликовала разбор ускорения инференса энкодерной guard-модели."
 tags: [habr, ml engineering, inference, llm infrastructure, ai research]
