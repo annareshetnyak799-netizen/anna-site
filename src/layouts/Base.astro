@@ -5,12 +5,35 @@ const { title = 'Anna Reshetnyak', description = 'ML Engineer · AI Researcher �
 const path = Astro.url.pathname;
 ---
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script is:inline>
+    (() => {
+      const detectLang = () => {
+        try {
+          const stored = window.localStorage.getItem('lang');
+          if (stored === 'ru' || stored === 'en') return stored;
+        } catch {}
+
+        const browserLang = navigator.language || '';
+        return /^ru\b/i.test(browserLang) ? 'ru' : 'en';
+      };
+
+      const lang = detectLang();
+      document.documentElement.lang = lang;
+      window.__siteLang = lang;
+    })();
+  </script>
   <title>{title}</title>
   <meta name="description" content={description}>
+  <style>
+    html[lang='ru'] .lang-en,
+    html[lang='en'] .lang-ru {
+      display: none !important;
+    }
+  </style>
 </head>
 <body>
 <div class="container">
@@ -18,11 +41,29 @@ const path = Astro.url.pathname;
     <a href="/" class="nav-logo">Anna Reshetnyak</a>
     <div class="nav-right">
       <ul class="nav-links">
-        <li><a href="/blog" class={path.startsWith('/blog') ? 'active' : ''} data-i18n="navBlog">Blog</a></li>
-        <li><a href="/#about" data-i18n="navAbout">About</a></li>
-        <li><a href="/#contact" data-i18n="navContact">Contact</a></li>
+        <li>
+          <a href="/blog" class={path.startsWith('/blog') ? 'active' : ''}>
+            <span class="lang-ru">Блог</span>
+            <span class="lang-en">Blog</span>
+          </a>
+        </li>
+        <li>
+          <a href="/#about">
+            <span class="lang-ru">Обо мне</span>
+            <span class="lang-en">About</span>
+          </a>
+        </li>
+        <li>
+          <a href="/#contact">
+            <span class="lang-ru">Контакты</span>
+            <span class="lang-en">Contact</span>
+          </a>
+        </li>
       </ul>
-      <button class="lang-toggle" onclick="toggleLang()" id="langBtn">RU</button>
+      <button class="lang-toggle" onclick="toggleLang()" id="langBtn">
+        <span class="lang-ru">EN</span>
+        <span class="lang-en">RU</span>
+      </button>
     </div>
   </nav>
 
@@ -30,32 +71,25 @@ const path = Astro.url.pathname;
 
   <footer>
     <span>© 2025 Anna Reshetnyak</span>
-    <span data-i18n="footerRight">Built with curiosity</span>
+    <span>
+      <span class="lang-ru">Создано с любопытством</span>
+      <span class="lang-en">Built with curiosity</span>
+    </span>
   </footer>
 </div>
 
 <script>
-  const NAV: Record<string, Record<string, string>> = {
-    ru: { navBlog: 'Блог', navAbout: 'Обо мне', navContact: 'Контакт', footerRight: 'Создано с любопытством' },
-    en: { navBlog: 'Blog', navAbout: 'About', navContact: 'Contact', footerRight: 'Built with curiosity' },
-  };
-
-      let lang = localStorage.getItem('lang') || 'ru';
+  let lang = (window as any).__siteLang || 'en';
 
   function applyNav(l: string) {
-    Object.entries(NAV[l]).forEach(([k, v]) => {
-      document.querySelectorAll<HTMLElement>(`[data-i18n="${k}"]`).forEach(el => el.innerHTML = v);
-    });
     document.documentElement.lang = l;
-    const btn = document.getElementById('langBtn');
-    if (btn) btn.textContent = l === 'ru' ? 'EN' : 'RU';
+    (window as any).__siteLang = l;
   }
 
   (window as any).toggleLang = () => {
     lang = lang === 'ru' ? 'en' : 'ru';
     localStorage.setItem('lang', lang);
     applyNav(lang);
-    window.dispatchEvent(new CustomEvent('langchange', { detail: lang }));
   };
 
   applyNav(lang);

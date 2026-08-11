@@ -32,91 +32,49 @@ const dateEn = enPost.data.date.toLocaleDateString('en-US', { day: 'numeric', mo
   <a
     href="/blog"
     class="back-link"
-    data-i18n="backToBlog"
-  >← All posts</a>
+  >
+    <span class="lang-ru">← Все посты</span>
+    <span class="lang-en">← All posts</span>
+  </a>
 
   <div class="post-tags-row">
     {enPost.data.tags.map(t => <span class="tag">{t}</span>)}
   </div>
 
-  <h1
-    class="post-h1"
-    data-post-title
-    data-title-ru={titleRu}
-    data-title-en={titleEn}
-  >
-    {titleEn}
+  <h1 class="post-h1">
+    <span class="lang-ru">{titleRu}</span>
+    <span class="lang-en">{titleEn}</span>
   </h1>
 
-  <div
-    class="post-byline"
-    data-post-date
-    data-date-ru={dateRu}
-    data-date-en={dateEn}
-  >
-    {dateEn} · RU/EN
-  </div>
+  <div class="post-byline lang-ru">{dateRu} · RU/EN</div>
+  <div class="post-byline lang-en">{dateEn} · RU/EN</div>
 
-  <div class="prose" data-lang-content="en">
+  <div class="prose lang-en">
     <ContentEn />
   </div>
 
-  <div class="prose" data-lang-content="ru" hidden>
+  <div class="prose lang-ru">
     <ContentRu />
   </div>
 
   <div class="post-footer">
-    <p data-i18n="postFooterLabel">Discuss it or ask a question:</p>
+    <p>
+      <span class="lang-ru">Обсудить или задать вопрос:</span>
+      <span class="lang-en">Discuss it or ask a question:</span>
+    </p>
     <a
       href="https://t.me/Areshka1212"
       target="_blank"
       rel="noreferrer"
       class="btn-ghost"
-      data-i18n="postFooterCta"
-    >Message me on Telegram</a>
+    >
+      <span class="lang-ru">Написать в Telegram</span>
+      <span class="lang-en">Message me on Telegram</span>
+    </a>
   </div>
 
 </article>
 </Base>
-
-<script>
-const POST_UI: Record<string, Record<string, string>> = {
-  ru: {
-    backToBlog: '← Все посты',
-    postFooterLabel: 'Обсудить или задать вопрос:',
-    postFooterCta: 'Написать в Telegram',
-  },
-  en: {
-    backToBlog: '← All posts',
-    postFooterLabel: 'Discuss it or ask a question:',
-    postFooterCta: 'Message me on Telegram',
-  },
-};
-
-function applyPost(lang: string) {
-  Object.entries(POST_UI[lang]).forEach(([key, value]) => {
-    document.querySelectorAll<HTMLElement>(`[data-i18n="${key}"]`).forEach(el => {
-      el.textContent = value;
-    });
-  });
-
-  document.querySelectorAll<HTMLElement>('[data-post-title]').forEach(el => {
-    el.textContent = lang === 'ru' ? el.dataset.titleRu ?? '' : el.dataset.titleEn ?? '';
-  });
-
-  document.querySelectorAll<HTMLElement>('[data-post-date]').forEach(el => {
-    const date = lang === 'ru' ? el.dataset.dateRu ?? '' : el.dataset.dateEn ?? '';
-    el.textContent = `${date} · RU/EN`;
-  });
-
-  document.querySelectorAll<HTMLElement>('[data-lang-content]').forEach(el => {
-    el.hidden = el.dataset.langContent !== lang;
-  });
-}
-
-      applyPost(localStorage.getItem('lang') || 'ru');
-window.addEventListener('langchange', e => applyPost((e as CustomEvent).detail));
-</script>
 
 <style>
 .back-link { font-family:'Space Mono',monospace; font-size:12px; color:var(--text-dim); text-decoration:none; letter-spacing:.06em; transition:color .2s; display:inline-block; margin-bottom:32px; }
